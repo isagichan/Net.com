@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Super Mass Birthday Wish!</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff67a2, #ffc837, #43cea2);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .card {
+            width: 400px;
+            height: 300px;
+            perspective: 1000px;
+        }
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+        }
+        .card.flip .card-inner {
+            transform: rotateY(180deg);
+        }
+        .front, .back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+            background: #fffbe7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .back {
+            transform: rotateY(180deg);
+            position: relative;
+            overflow: hidden;
+        }
+        .cake {
+            margin: 20px 0;
+            width: 80px;
+            height: 100px;
+            position: relative;
+        }
+        .cake .top-layer,
+        .cake .middle-layer,
+        .cake .bottom-layer {
+            position: absolute;
+            left: 0; right: 0;
+            background: #ffe0e9;
+            border-radius: 50px;
+        }
+        .cake .top-layer { top: 0; height: 25px; }
+        .cake .middle-layer { top: 30px; height: 30px; background: #ffc837;}
+        .cake .bottom-layer { top: 65px; height: 35px; background: #ff67a2;}
+        .cake .candle {
+            position: absolute;
+            top: 0; left: 35px;
+            width: 10px; height: 30px;
+            background: #bada55;
+            border-radius: 5px;
+        }
+        button {
+            background: #43cea2;
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        /* surprise images */
+        .circle-container {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px; height: 250px;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        .circle-container img {
+            position: absolute;
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0.5) translateZ(0);
+            transition: all 0.8s ease;
+        }
+        .circle-container img.show {
+            opacity: 1;
+            transform: scale(1) translateZ(150px);
+        }
+    </style>
+</head>
+<body>
+    <div class="card" id="card">
+        <div class="card-inner">
+            <div class="front">
+                <h1 id="wish">Happy Birthday!</h1>
+                <div class="cake">
+                    <div class="top-layer"></div>
+                    <div class="middle-layer"></div>
+                    <div class="bottom-layer"></div>
+                    <div class="candle"></div>
+                </div>
+                <button onclick="showWish()">Click for Surprise</button>
+            </div>
+            <div class="back">
+                <h2 id="randomWish"></h2>
+                <div class="circle-container" id="circle"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const wishes = [
+            "Super mass birthday! May all your dreams come true!",
+            "Rock your birthday with unlimited happiness and joy!",
+            "Let today be the best day ever! Shine on!",
+            "Cake, friends, love – today is all about you!",
+            "Wishing you the brightest future and happiest times!"
+        ];
+
+        // sample images (replace with your own image URLs)
+        const images = [
+            "",
+            "",
+            "",
+            "",
+            "",
+        ];
+
+        function showWish() {
+            const wishIndex = Math.floor(Math.random() * wishes.length);
+            document.getElementById("randomWish").innerText = wishes[wishIndex];
+            document.getElementById("card").classList.add("flip");
+
+            // add images in circle
+            const circle = document.getElementById("circle");
+            circle.innerHTML = "";
+            const angleStep = 360 / images.length;
+
+            images.forEach((src, i) => {
+                const img = document.createElement("img");
+                img.src = src;
+                circle.appendChild(img);
+                // delay animation one by one
+                setTimeout(() => {
+                    img.classList.add("show");
+                    const angle = i * angleStep;
+                    img.style.transform = `rotateY(${angle}deg) translateZ(150px)`;
+                }, i * 500); // each 0.5s gap
+            });
+        }
+    </script>
+</body>
+</html>
