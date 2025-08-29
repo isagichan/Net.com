@@ -121,6 +121,10 @@
             </div>
         </div>
     </div>
+
+    <!-- Background song -->
+    <audio id="bgSong" src="song.mp3"></audio>
+
     <script>
         const wishes = [
             "Super mass birthday! May all your dreams come true!",
@@ -136,13 +140,17 @@
             "IMG-20250313-WA0007.jpg",
             "IMG-20250416-WA0015.jpg",
             "IMG-20250719-WA0012.jpg",
-            "IMG_20250323_183030.jpg",
+            "IMG 20250323 183030.jpg",
         ];
 
         function showWish() {
             const wishIndex = Math.floor(Math.random() * wishes.length);
             document.getElementById("randomWish").innerText = wishes[wishIndex];
             document.getElementById("card").classList.add("flip");
+
+            // play background song
+            const song = document.getElementById("bgSong");
+            song.play();
 
             // add images in circle
             const circle = document.getElementById("circle");
@@ -153,12 +161,11 @@
                 const img = document.createElement("img");
                 img.src = src;
                 circle.appendChild(img);
-                // delay animation one by one
                 setTimeout(() => {
                     img.classList.add("show");
                     const angle = i * angleStep;
                     img.style.transform = `rotateY(${angle}deg) translateZ(150px)`;
-                }, i * 500); // each 0.5s gap
+                }, i * 500); // delay each
             });
         }
     </script>
